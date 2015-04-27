@@ -125,6 +125,14 @@ class GoogleCodeIssue(object):
     """
     return self._issue.get("labels", [])
 
+  def GetStatus(self):
+    """Get the status from a Google Code issue.
+
+    Returns:
+    A list of the status of this issue.
+        """
+    return self._issue["status"]
+
   def GetKind(self):
     """Get the kind from a Google Code issue.
 
@@ -158,7 +166,10 @@ class GoogleCodeIssue(object):
       return None
 
     author = self._issue["author"]["name"]
-    return self._user_map[author]
+    if self._user_map.get(author) == None:
+        parts = author.split("@", 1)
+        return parts[0]
+    return "@" + self._user_map[author]
 
   def GetStatus(self):
     """Get the status from a Google Code issue.
@@ -298,7 +309,10 @@ class GoogleCodeComment(object):
       return None
 
     author = self._comment["author"]["name"]
-    return self.GetIssue().GetUserMap()[author]
+    if self.GetIssue().GetUserMap().get(author) == None:
+        parts = author.split("@", 1)
+        return parts[0]
+    return "@" + self.GetIssue().GetUserMap()[author]
 
   def GetDescription(self):
     """Returns the Description of the comment.

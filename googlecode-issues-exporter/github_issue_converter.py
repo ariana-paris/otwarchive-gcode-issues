@@ -331,7 +331,7 @@ class IssueService(issues.IssueService):
         "title": issue_title,
         "body": googlecode_issue.GetDescription(),
         "assignee": googlecode_issue.GetOwner(),
-        "labels": googlecode_issue.GetLabels(),
+        "labels": googlecode_issue.GetLabels().append(googlecode_issue.GetStatus()),
     }
     response, content = self._github_service.PerformPostRequest(
         self._github_issues_url, json.dumps(issue))
@@ -441,7 +441,7 @@ def main(args):
                       help="You can generate an oauth token here: "
                       "https://github.com/settings/applications")
   parser.add_argument("--github_owner_username", required=True,
-                      help="The project ownsers GitHub username")
+                      help="The project owner's GitHub username")
   parser.add_argument("--github_repo_name", required=True,
                       help="The GitHub repository you wish to add the issues"
                       "to.")

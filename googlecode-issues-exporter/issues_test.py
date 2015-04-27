@@ -99,6 +99,11 @@ class GoogleCodeIssueTest(unittest.TestCase):
         issue_json, REPO, USER_MAP)
     self.assertEqual(DEFAULT_USERNAME, issue.GetOwner())
 
+  def testGetStatus(self):
+    issue_json = ISSUE_JSON.copy()
+    issue = issues.GoogleCodeIssue(issue_json, REPO, USER_MAP)
+    self.assertEqual("fixed", issue.GetStatus())
+
 
 if __name__ == "__main__":
   unittest.main(buffer=True)
